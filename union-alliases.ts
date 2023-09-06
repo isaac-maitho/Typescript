@@ -1,9 +1,13 @@
 //union types and literal types
 
+//alliases custom types
+type Combined = number | string;
+type Conversion = 'as-number' | 'as-text';
+
 function combine(
-    input1: number | string, 
-    input2: number | string, 
-    resultConversion: 'as-number' | 'as-text'){
+    input1: Combined, 
+    input2: Combined, 
+    resultConversion: Conversion){
 
     let result;
     if(typeof input1 === 'number' && typeof input2 === 'number' || resultConversion === 'as-number'){
