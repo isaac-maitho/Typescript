@@ -1,6 +1,6 @@
 //function types
 
-function add (n1: number, n2: number){
+function sum (n1: number, n2: number){
     return n1 + n2;
 }
 
@@ -14,12 +14,12 @@ function result(num: number){
     console.log('Result: ' + num)
 }
 
-result(add(8,12))
+result(sum(8,12))
 
 
 let combinedValues: (a:number, b: number) => number;
 
-combinedValues = add;
+combinedValues = sum;
 
 console.log(combinedValues(15,15))
 
