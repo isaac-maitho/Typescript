@@ -1,4 +1,6 @@
 class Department {
+    //static properties
+    static Year = 2023;
     //name: string;
     //private readonly id: string;
     //private employees: string[] = [];
@@ -9,6 +11,11 @@ class Department {
     //shorthand initialization & readonly keyword
     constructor(private readonly id: string, public name: string){
         //this.name = n;
+    }
+
+    //static methods
+    static createEmployee(name: string){
+        return {name: name}
     }
 
     describe(this: Department){
@@ -37,12 +44,33 @@ class ITDepartment extends Department {
 }
 
 class AccountingDepartment extends Department{
+    private lastReport: string;
+
+    //getters
+    get mostRecentReport(){
+        if(this.lastReport){
+            return this.lastReport
+        }
+        throw new Error('No report found')
+        
+    }
+
+    //setters
+    set mostRecentReport(value: string){
+        if(!value){
+            throw new Error('Please pass in a valid value')
+        }
+        this.addReports(value);
+    }
+
     constructor(id: string, private reports: string[]){
         super(id, 'Accounting')
+        this.lastReport = reports[0]
     }
 
     addReports(text: string){
         this.reports.push(text)
+        this.lastReport = text;
     }
 
     printReports(){
@@ -50,9 +78,17 @@ class AccountingDepartment extends Department{
     }
 }
 
+const newEmployee = Department.createEmployee('Badman')
+console.log(newEmployee, Department.Year)
+
+
 const Job = new Department('Developer', 'D1')
 const it = new ITDepartment('CT1', ['Maitho'])
+
 const Accounts = new AccountingDepartment('A1', ['REPORT 1'])
+//setters
+Accounts.mostRecentReport = 'Year End Report'
+
 
 Job.addEmployee('Isaac')
 Job.addEmployee('wyclif')
@@ -62,6 +98,8 @@ it.printEmployeeInfo()
 
 Accounts.addReports('One report Added')
 Accounts.printReports()
+console.log(Accounts.mostRecentReport)
+
 // cannot work since employees property is private
 //Job.employees [2] = 'Anna'
 
