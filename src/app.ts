@@ -1,4 +1,4 @@
-class Department {
+abstract class Department {
     //static properties
     static Year = 2023;
     //name: string;
@@ -9,7 +9,7 @@ class Department {
     protected employees: string[] = [];
     
     //shorthand initialization & readonly keyword
-    constructor(private readonly id: string, public name: string){
+    constructor(protected readonly id: string, public name: string){
         //this.name = n;
     }
 
@@ -18,9 +18,10 @@ class Department {
         return {name: name}
     }
 
-    describe(this: Department){
-        console.log(`Department: (${this.id}) : ${this.name}`)
-    }
+    //absract
+    abstract describe(this: Department) : void;
+       // console.log(`Department: (${this.id}) : ${this.name}`)
+    
 
     addEmployee(employee: string){
         this.employees.push(employee)
@@ -40,6 +41,9 @@ class ITDepartment extends Department {
 
     addEmployee(employee: string): void {
         this.employees.push(employee)
+    }
+    describe() {
+        console.log('IT Department:' + this.id)
     }
 }
 
@@ -62,6 +66,9 @@ class AccountingDepartment extends Department{
         }
         this.addReports(value);
     }
+    describe() {
+        console.log('AccountingDeparmrnt ID: ' + this.id)
+    }
 
     constructor(id: string, private reports: string[]){
         super(id, 'Accounting')
@@ -81,17 +88,19 @@ class AccountingDepartment extends Department{
 const newEmployee = Department.createEmployee('Badman')
 console.log(newEmployee, Department.Year)
 
-
-const Job = new Department('Developer', 'D1')
+//Abstract classes cannot be instantiated
+//const Job = new Department('Developer', 'D1')
 const it = new ITDepartment('CT1', ['Maitho'])
 
 const Accounts = new AccountingDepartment('A1', ['REPORT 1'])
+Accounts.describe()
 //setters
 Accounts.mostRecentReport = 'Year End Report'
+it.describe()
 
 
-Job.addEmployee('Isaac')
-Job.addEmployee('wyclif')
+// Job.addEmployee('Isaac')
+// Job.addEmployee('wyclif')
 
 it.addEmployee('Matata')
 it.printEmployeeInfo()
@@ -103,8 +112,8 @@ console.log(Accounts.mostRecentReport)
 // cannot work since employees property is private
 //Job.employees [2] = 'Anna'
 
-Job.printEmployeeInfo()
-Job.describe()
+// Job.printEmployeeInfo()
+// Job.describe()
 
-console.log(Job)
+// console.log(Job)
 console.log(it)
