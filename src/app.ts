@@ -1,131 +1,59 @@
-abstract class Department {
-    //static properties
-    static Year = 2023;
-    //name: string;
-    //private readonly id: string;
-    //private employees: string[] = [];
+//interfaces define the structure of an object
 
-    //changed it to protected to make it accessible to other extended classes
-    protected employees: string[] = [];
-    
-    //shorthand initialization & readonly keyword
-    constructor(protected readonly id: string, public name: string){
-        //this.name = n;
+//functions and Interfaces
+//type Addfn = (a: number, b: number) => number
+
+interface Addfn {
+    (a: number, b: number): number
+}
+
+let Add: Addfn;
+
+Add = (n1: number, n2: number) => {
+    return n1 + n2
+}
+
+interface PersonName {
+    readonly name: string;
+   
+
+    greet(phrase: string): void
+}
+
+interface PersonAge extends PersonName {
+    age: number;
+}
+
+//classes and interfaces
+class User implements PersonName {
+    name: string;
+    age = 25;
+
+    constructor(n: string){
+        this.name = n;
     }
 
-    //static methods
-    static createEmployee(name: string){
-        return {name: name}
-    }
-
-    //absract
-    abstract describe(this: Department) : void;
-       // console.log(`Department: (${this.id}) : ${this.name}`)
-    
-
-    addEmployee(employee: string){
-        this.employees.push(employee)
-    }
-
-    printEmployeeInfo(){
-        console.log(this.employees)
-        console.log(this.employees.length)
+    greet(phrase: string){
+        console.log(phrase +  ' ' + this.name)
     }
 }
 
-//inheritance
-class ITDepartment extends Department {
-    constructor(id: string, public amins: string[]){
-        super(id, 'IT')
+let user1: PersonAge;
+//let user1: User;
+
+user1 = new User('Ndets')
+
+//cannot be reassigned due to the readonly property
+//user1.name = 'gg'
+
+user1 = {
+    name: 'Susan',
+    age: 24,
+
+    greet(phrase: string){
+        console.log(phrase +  ' ' + this.name)
     }
+};
 
-    addEmployee(employee: string): void {
-        this.employees.push(employee)
-    }
-    describe() {
-        console.log('IT Department:' + this.id)
-    }
-}
-
-class AccountingDepartment extends Department{
-    private lastReport: string;
-    private static instance : AccountingDepartment
-
-    //getters
-    get mostRecentReport(){
-        if(this.lastReport){
-            return this.lastReport
-        }
-        throw new Error('No report found')
-        
-    }
-
-    //setters
-    set mostRecentReport(value: string){
-        if(!value){
-            throw new Error('Please pass in a valid value')
-        }
-        this.addReports(value);
-    }
-    describe() {
-        console.log('AccountingDeparmrnt ID: ' + this.id)
-    }
-
-    //singleton & private constructors
-    private constructor(id: string, private reports: string[]){
-        super(id, 'Accounting')
-        this.lastReport = reports[0]
-    }
-    static getInstance(){
-        if(AccountingDepartment.instance){
-            return this.getInstance;
-        }
-        this.instance = new AccountingDepartment('A1', [])
-        return this.instance
-    }
-
-    addReports(text: string){
-        this.reports.push(text)
-        this.lastReport = text;
-    }
-
-    printReports(){
-        console.log(this.reports)
-    }
-}
-
-const newEmployee = Department.createEmployee('Badman')
-console.log(newEmployee, Department.Year)
-
-//Abstract classes cannot be instantiated
-//const Job = new Department('Developer', 'D1')
-const it = new ITDepartment('CT1', ['Maitho'])
-
-//const Accounts = new AccountingDepartment('A1', ['REPORT 1'])
-//how to call it with the singleton approach
-const Accounts = AccountingDepartment.getInstance()
-console.log(Accounts)
-//Accounts.describe()
-//setters
-//Accounts.mostRecentReport = 'Year End Report'
-it.describe()
-
-
-// Job.addEmployee('Isaac')
-// Job.addEmployee('wyclif')
-
-it.addEmployee('Matata')
-it.printEmployeeInfo()
-
-// Accounts.addReports('One report Added')
-// Accounts.printReports()
-// console.log(Accounts.mostRecentReport)
-
-// cannot work since employees property is private
-//Job.employees [2] = 'Anna'
-
-// Job.printEmployeeInfo()
-// Job.describe()
-
-// console.log(Job)
-console.log(it)
+user1.greet('Welcome');
+console.log(user1)
