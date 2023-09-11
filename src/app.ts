@@ -49,6 +49,7 @@ class ITDepartment extends Department {
 
 class AccountingDepartment extends Department{
     private lastReport: string;
+    private static instance : AccountingDepartment
 
     //getters
     get mostRecentReport(){
@@ -70,9 +71,17 @@ class AccountingDepartment extends Department{
         console.log('AccountingDeparmrnt ID: ' + this.id)
     }
 
-    constructor(id: string, private reports: string[]){
+    //singleton & private constructors
+    private constructor(id: string, private reports: string[]){
         super(id, 'Accounting')
         this.lastReport = reports[0]
+    }
+    static getInstance(){
+        if(AccountingDepartment.instance){
+            return this.getInstance;
+        }
+        this.instance = new AccountingDepartment('A1', [])
+        return this.instance
     }
 
     addReports(text: string){
@@ -92,10 +101,13 @@ console.log(newEmployee, Department.Year)
 //const Job = new Department('Developer', 'D1')
 const it = new ITDepartment('CT1', ['Maitho'])
 
-const Accounts = new AccountingDepartment('A1', ['REPORT 1'])
-Accounts.describe()
+//const Accounts = new AccountingDepartment('A1', ['REPORT 1'])
+//how to call it with the singleton approach
+const Accounts = AccountingDepartment.getInstance()
+console.log(Accounts)
+//Accounts.describe()
 //setters
-Accounts.mostRecentReport = 'Year End Report'
+//Accounts.mostRecentReport = 'Year End Report'
 it.describe()
 
 
@@ -105,9 +117,9 @@ it.describe()
 it.addEmployee('Matata')
 it.printEmployeeInfo()
 
-Accounts.addReports('One report Added')
-Accounts.printReports()
-console.log(Accounts.mostRecentReport)
+// Accounts.addReports('One report Added')
+// Accounts.printReports()
+// console.log(Accounts.mostRecentReport)
 
 // cannot work since employees property is private
 //Job.employees [2] = 'Anna'
