@@ -1,59 +1,25 @@
-//interfaces define the structure of an object
-
-//functions and Interfaces
-//type Addfn = (a: number, b: number) => number
-
-interface Addfn {
-    (a: number, b: number): number
-}
-
-let Add: Addfn;
-
-Add = (n1: number, n2: number) => {
-    return n1 + n2
-}
-
-interface PersonName {
-    readonly name: string;
-   
-
-    greet(phrase: string): void
-}
-
-interface PersonAge extends PersonName {
-    age: number;
-}
-
-//classes and interfaces
-class User implements PersonName {
+//intersection of object types
+type Admin = {
     name: string;
-    age = 25;
-
-    constructor(n: string){
-        this.name = n;
-    }
-
-    greet(phrase: string){
-        console.log(phrase +  ' ' + this.name)
-    }
+    priviledges: string [];
 }
 
-let user1: PersonAge;
-//let user1: User;
+type Employee = {
+    name: string;
+    date: Date;
+}
 
-user1 = new User('Ndets')
+type ElevatedEmployee = Admin & Employee;
 
-//cannot be reassigned due to the readonly property
-//user1.name = 'gg'
+const e1: ElevatedEmployee = {
+    name: 'Gaucho',
+    priviledges: ['create-server'],
+    date: new Date
+}
 
-user1 = {
-    name: 'Susan',
-    age: 24,
+//intersection of union types
 
-    greet(phrase: string){
-        console.log(phrase +  ' ' + this.name)
-    }
-};
+type Combinable = number | string;
+type Numeric = string | number;
 
-user1.greet('Welcome');
-console.log(user1)
+type Universal = Combinable & Numeric
